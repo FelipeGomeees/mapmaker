@@ -21,12 +21,15 @@ export class MapWrapper {
             const div = document.createElement("div");
             div.id = `tile-${x}-${y}`;
             div.draggable = false;
-            div.addEventListener("hover", (e) => {
-                if (e.target && this.isdown) {
-                    const colorInput = document.getElementById("input__color") as HTMLInputElement;
-                    const selectedId = (e.target as HTMLInputElement).id;
-                    this.map.paintColor(colorInput.value, Number(selectedId.split("-")[1]), Number(selectedId.split("-")[2]));
-                }
+            div.addEventListener("mouseover", (e) => {
+                // REFORMULAR PARA NÃO USAR MAIS DIVS
+                //
+                // FAZER POR COORDENADAS
+                //
+                this.applyPaint(e)
+            })
+            div.addEventListener("mousedown", (e) => {
+                this.applyPaint(e)
             })
             x++;
             if (x === 18) {
@@ -36,8 +39,20 @@ export class MapWrapper {
             this.wrapper.appendChild(div);
         }
     }
-    
 
+    private applyPaint(e: Event) {
+        const pencil = sessionStorage.getItem('pencil-value');
+        if (pencil && e.target && this.isdown) {
+            if (sessionStorage.getItem('pencil-type') === 'color') {
+                const selectedId = (e.target as HTMLInputElement).id;
+                this.map.paintColor(pencil, Number(selectedId.split("-")[1]), Number(selectedId.split("-")[2]));
+            } else {
+                const selectedId = (e.target as HTMLInputElement).id;
+                this.map.paintTexture(Number(pencil), Number(selectedId.split("-")[1]), Number(selectedId.split("-")[2]));
+            }
+        }
+    }
+    
     constructor(wrapper: HTMLElement, map: GameMap) {
         this.map = map;
         this.wrapper = wrapper;

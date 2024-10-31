@@ -12,15 +12,25 @@
     <title>Document</title>
 </head>
 <body>
-    <canvas id="map" width="900" height="900"></canvas>
+    <canvas id="color__map" width="900" height="900"></canvas>
+    <canvas id="texture__map" width="900" height="900"></canvas>
     <div id="wrapper"></div>
     <div id="gui">
-        <input id="input__color" type="color" class="tile">
-        <button id="gui_color">Color</button>
-        <button id="gui_detail">Detail</button>
-        <button id="gui_object">Object</button>
-        <button id="gui_collision">Collison</button>
-        <button id="gui_event">Events</button>
+        <div class="gui__layer-buttons">
+            <button id="btn__color">Color</button>
+            <button id="btn__texture">Texture</button>
+            <button id="btn__sprite">Sprite</button>
+            <button id="btn__collision">Collison</button>
+        </div>
+        <div class="gui__tile-area">
+            <div class="tile-area__color" id="tile-area__color">
+                <input class="tile" id="input__color" type="color">
+            </div>
+            <div class="tile-area__texture" id="tile-area__texture">
+            </div>
+            <div class="tile-area__sprite">      
+            </div>
+        </div>
     </div>
 </body>
 </html>
