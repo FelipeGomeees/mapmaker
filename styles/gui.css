@@ -2,4 +2,47 @@
     position: fixed;
     top: 0;
     right: 0;
+    background-color: #444;
+    width: 25%;
+    height: 100%;
+    border: 1px solid white;
+}
+
+#gui > * {
+    padding: 4px;
+    border: 1px solid #bbb;
+}
+
+.gui__layer-buttons {
+    display: flex;
+    width: 100%;
+}
+
+.gui__layer-buttons > button {
+    flex: 1;
+    height: 50px;
+    font-size: 1.3rem;
+}
+
+.gui__layer-buttons > button:hover {
+    cursor: pointer;
+}
+
+.gui__tile-area {
+    width: 100%;
+}
+
+.tile-area__color {
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tile-area__texture {
+    display: none;
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 200px;
+    justify-content: center;
 }

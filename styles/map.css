@@ -1,3 +1,12 @@
-#map {
+canvas {
     border: 1px solid white;
+    position: absolute;
+}
+
+#color__map {
+    z-index: 1;
+}
+
+#texture__map {
+    z-index: 2;
 }
