@@ -1,9 +1,10 @@
-import { detailList } from "../utils/lists";
+import { textureList } from "../utils/lists";
 export class GameMap {
     colorMap: string[][]
-    detailMap: number[][];
+    textureMap: number[][];
     collisionMap: number[][];
     ctx: CanvasRenderingContext2D | null;
+    el: HTMLCanvasElement;
 
     private static defaultMap(): number[][] {
         const map: number[][] = [];
@@ -28,19 +29,21 @@ export class GameMap {
     }
 
     public draw() {
-        const canvas = document.getElementById("map") as HTMLCanvasElement;
-        const ctx = canvas.getContext("2d");
-        console.log(this.detailMap.length);
-        if (ctx) {
-            for (let i = 0; i < this.detailMap.length; i++) {
-                for (let j = 0; j < this.detailMap[i].length; j++) {
-                    ctx.fillStyle = this.colorMap[i][j];
-                    ctx.fillRect(i * 50, j * 50, 50, 50);
-                    const img = new Image();
-                    img.src = detailList[this.detailMap[i][j]];
-                    img.onload = () => {
-                        ctx.drawImage(img, i * 50, j * 50, 50, 50);
-                    }
+        if (this.ctx) {
+            for (let i = 0; i < this.textureMap.length; i++) {
+                for (let j = 0; j < this.textureMap[i].length; j++) {
+                    //
+                    // Está RENDERIZANDO COR MESMO COM ARRAY VAZIO
+                    //
+                    // this.ctx.fillStyle = this.colorMap[i][j];
+                    // this.ctx.fillRect(i * 50, j * 50, 50, 50);
+                    // const img = new Image();
+                    // img.src = textureList[this.textureMap[i][j]];
+                    // img.onload = () => {
+                    //     if (this.ctx) {
+                    //         this.ctx.drawImage(img, i * 50, j * 50, 50, 50);
+                    //     } 
+                    // }
                 }
             }
         }
@@ -54,11 +57,11 @@ export class GameMap {
         }
     }
 
-    public paintDetail(detailId: number, x: number, y: number) {
+    public paintTexture(detailId: number, x: number, y: number) {
         if (this.ctx) {
             const img = new Image();
-            this.detailMap[x][y] = detailId;
-            img.src = detailList[detailId];
+            this.textureMap[x][y] = detailId;
+            img.src = textureList[detailId];
 
             img.onload = () => {
                 if (this.ctx) {
@@ -68,11 +71,11 @@ export class GameMap {
         }
     }
 
-    constructor(colorMap?: string[][], detailMap?: number[][], collisionMap?: number[][]) {
-        const canvas = document.getElementById("map") as HTMLCanvasElement;
+    constructor(canvas: HTMLCanvasElement, colorMap?: string[][], textureMap?: number[][], collisionMap?: number[][]) {
+        this.el = canvas;
         this.ctx = canvas.getContext("2d");
         this.colorMap = colorMap || GameMap.defaultColorMap();
-        this.detailMap = detailMap || GameMap.defaultMap();
+        this.textureMap = textureMap || GameMap.defaultMap();
         this.collisionMap = collisionMap || GameMap.defaultMap();     
     }
 }   
