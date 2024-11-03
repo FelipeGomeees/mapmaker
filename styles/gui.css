@@ -13,18 +13,21 @@
     border: 1px solid #bbb;
 }
 
-.gui__layer-buttons {
+.gui__layer-buttons, 
+.gui__selection-buttons {
     display: flex;
     width: 100%;
 }
 
-.gui__layer-buttons > button {
+.gui__layer-buttons > button,
+.gui__selection-buttons > button {
     flex: 1;
     height: 50px;
     font-size: 1.3rem;
 }
 
-.gui__layer-buttons > button:hover {
+.gui__layer-buttons > button:hover,
+.gui__selection-buttons > button:hover {
     cursor: pointer;
 }
 

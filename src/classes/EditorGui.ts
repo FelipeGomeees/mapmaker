@@ -44,6 +44,29 @@ export class EditorGui {
             this.textureArea.appendChild(div);
         });
 
+        // Selection Buttons
+        const defaultCursor = document.getElementById('btn__default-selection')
+        if (defaultCursor) {
+            defaultCursor.addEventListener('click', (e) => {
+                sessionStorage.setItem('pencil-mode','default');
+            })
+        };
+
+        const areaCursor = document.getElementById('btn__area-selection');
+        if (areaCursor) {
+            areaCursor.addEventListener('click', (e) => {
+                sessionStorage.setItem('pencil-mode','area');
+            })
+        }
+
+        const fillCursor = document.getElementById('btn__fill-selection');
+        if (fillCursor) {
+            fillCursor.addEventListener('click', (e) => {
+                sessionStorage.setItem('pencil-mode','fill');
+            })
+        }
+
+        // Paint Buttons
         const color = document.getElementById('input__color');
         if (color) {
             color.addEventListener('change', (e) => {

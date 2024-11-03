@@ -16,5 +16,5 @@
 
 #wrapper > div:hover {
     outline: 1px solid white;
-    cursor: pointer;
+    cursor: crosshair;
 }

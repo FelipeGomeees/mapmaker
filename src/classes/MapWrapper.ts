@@ -4,6 +4,7 @@ export class MapWrapper {
     wrapper: HTMLElement;
     map: GameMap;
     isdown: Boolean;
+    areaPaintStart: Array<number> | null;
 
     private setup() {
         this.wrapper.addEventListener("mousedown", (e) => {
@@ -26,10 +27,25 @@ export class MapWrapper {
                 //
                 // FAZER POR COORDENADAS
                 //
-                this.applyPaint(e)
+                const mode = sessionStorage.getItem('pencil-mode')
+                if (mode === 'default') {
+                    this.applyPaint(e);
+                }
             })
             div.addEventListener("mousedown", (e) => {
-                this.applyPaint(e)
+                const mode = sessionStorage.getItem('pencil-mode')
+                if (mode === 'area') {
+                    console.log('Area');
+                    this.selectArea(e);
+                } else {
+                    this.applyPaint(e);
+                }
+            })
+            div.addEventListener("mouseup", (e) => {
+                this.releaseArea(e);
+            })
+            div.addEventListener("click", (e) => {
+                this.applyPaint(e, true);
             })
             x++;
             if (x === 18) {
@@ -40,9 +56,9 @@ export class MapWrapper {
         }
     }
 
-    private applyPaint(e: Event) {
+    private applyPaint(e: Event, click?: Boolean) {
         const pencil = sessionStorage.getItem('pencil-value');
-        if (pencil && e.target && this.isdown) {
+        if ((pencil && e.target) && (this.isdown || click)) {
             if (sessionStorage.getItem('pencil-type') === 'color') {
                 const selectedId = (e.target as HTMLInputElement).id;
                 this.map.paintColor(pencil, Number(selectedId.split("-")[1]), Number(selectedId.split("-")[2]));
@@ -52,11 +68,42 @@ export class MapWrapper {
             }
         }
     }
+
+    private selectArea(e: Event) {
+        if (!this.areaPaintStart) {
+            const selectedId = (e.target as HTMLInputElement).id;
+            this.areaPaintStart = [Number(selectedId.split("-")[1]), Number(selectedId.split("-")[2])]
+        }
+    }
+
+    private releaseArea(e: Event) {
+        const selectedId = (e.target as HTMLInputElement).id;
+        const areaEnd = [Number(selectedId.split("-")[1]), Number(selectedId.split("-")[2])];
+        if (this.areaPaintStart) {
+            this.paintArea(this.areaPaintStart[0], this.areaPaintStart[1], areaEnd[0], areaEnd[1]);
+        }
+        this.areaPaintStart = null
+    }
+
+    private paintArea(x1: number, y1: number, x2: number, y2: number) {
+        for (let i = x1; i <= x2; i++) {    
+            for (let j = y1; j <= y2; j++) {
+                const pencilValue = sessionStorage.getItem('pencil-value');
+                const pencilType = sessionStorage.getItem('pencil-type');
+                if (pencilType === 'color' && pencilValue) {
+                    this.map.paintColor(pencilValue, i, j);
+                } else {
+                    this.map.paintTexture(Number(pencilValue), i, j);
+                }
+            }
+        }
+    }
     
     constructor(wrapper: HTMLElement, map: GameMap) {
         this.map = map;
         this.wrapper = wrapper;
         this.isdown = false;
+        this.areaPaintStart = [];
 
         this.setup();
     }
