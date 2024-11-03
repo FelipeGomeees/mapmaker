@@ -14,8 +14,14 @@
 <body>
     <canvas id="color__map" width="900" height="900"></canvas>
     <canvas id="texture__map" width="900" height="900"></canvas>
+    <canvas id="download__map" width="900" height="900"></canvas>
     <div id="wrapper"></div>
     <div id="gui">
+        <div class="gui__selection-buttons">
+            <button id="btn__default-selection">Default</button>
+            <button id="btn__area-selection">Area</button>
+            <button id="btn__fill-selection">Fill</button>
+        </div>
         <div class="gui__layer-buttons">
             <button id="btn__color">Color</button>
             <button id="btn__texture">Texture</button>
@@ -30,6 +36,9 @@
             </div>
             <div class="tile-area__sprite">      
             </div>
+        </div>
+        <div id="gui__download">
+            Download Map
         </div>
     </div>
 </body>
