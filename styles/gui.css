@@ -49,3 +49,12 @@
     min-height: 200px;
     justify-content: center;
 }
+
+
+.tile-area__sprite {
+    display: none;
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 200px;
+    justify-content: center;
+}

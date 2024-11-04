@@ -62,9 +62,12 @@ export class MapWrapper {
             if (sessionStorage.getItem('pencil-type') === 'color') {
                 const selectedId = (e.target as HTMLInputElement).id;
                 this.map.paintColor(pencil, Number(selectedId.split("-")[1]), Number(selectedId.split("-")[2]));
-            } else {
+            } else if (sessionStorage.getItem('pencil-type') === 'texture') {
                 const selectedId = (e.target as HTMLInputElement).id;
                 this.map.paintTexture(Number(pencil), Number(selectedId.split("-")[1]), Number(selectedId.split("-")[2]));
+            } else {
+                const selectedId = (e.target as HTMLInputElement).id;
+                this.map.paintSprite(Number(pencil), Number(selectedId.split("-")[1]), Number(selectedId.split("-")[2]));
             }
         }
     }
@@ -86,14 +89,21 @@ export class MapWrapper {
     }
 
     private paintArea(x1: number, y1: number, x2: number, y2: number) {
-        for (let i = x1; i <= x2; i++) {    
-            for (let j = y1; j <= y2; j++) {
+        const startX = Math.min(x1, x2);
+        const endX = Math.max(x1, x2);
+        const startY = Math.min(y1, y2);
+        const endY = Math.max(y1, y2);
+    
+        for (let i = startX; i <= endX; i++) {    
+            for (let j = startY; j <= endY; j++) {
                 const pencilValue = sessionStorage.getItem('pencil-value');
                 const pencilType = sessionStorage.getItem('pencil-type');
                 if (pencilType === 'color' && pencilValue) {
                     this.map.paintColor(pencilValue, i, j);
-                } else {
+                } else if (pencilType === 'texture' && pencilValue) {
                     this.map.paintTexture(Number(pencilValue), i, j);
+                } else {
+                    this.map.paintSprite(Number(pencilValue), i, j);
                 }
             }
         }

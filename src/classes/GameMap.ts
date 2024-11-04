@@ -1,7 +1,8 @@
-import { textureList } from "../utils/lists";
+import { textureList, spriteList } from "../utils/lists";
 export class GameMap {
     colorMap: string[][]
     textureMap: number[][];
+    spriteMap: number[][];
     collisionMap: number[][];
     ctx: CanvasRenderingContext2D | null;
     el: HTMLCanvasElement;
@@ -71,11 +72,35 @@ export class GameMap {
         }
     }
 
-    constructor(canvas: HTMLCanvasElement, colorMap?: string[][], textureMap?: number[][], collisionMap?: number[][]) {
+    public paintSprite(detailId: number, x: number, y: number) {
+        if (this.ctx) {
+            const img = new Image();
+            this.spriteMap[x][y] = detailId;
+            img.src = spriteList[detailId];
+
+            img.onload = () => {
+                if (this.ctx) {
+                    this.ctx.drawImage(img, x * 50, y * 50, 50, 50);
+                }
+            }
+        }
+    }
+
+    public export() {
+        return {
+            colorMap: this.colorMap,
+            textureMap: this.textureMap,
+            spriteMap: this.spriteMap,
+            collisionMap: this.collisionMap
+        }
+    }
+
+    constructor(canvas: HTMLCanvasElement, colorMap?: string[][], textureMap?: number[][],  spriteMapMap?: number[][], collisionMap?: number[][]) {
         this.el = canvas;
         this.ctx = canvas.getContext("2d");
         this.colorMap = colorMap || GameMap.defaultColorMap();
         this.textureMap = textureMap || GameMap.defaultMap();
+        this.spriteMap = spriteMapMap || GameMap.defaultMap();
         this.collisionMap = collisionMap || GameMap.defaultMap();     
     }
 }   

@@ -10,3 +10,7 @@ canvas {
 #texture__map {
     z-index: 2;
 }
+
+#sprite__map {
+    z-index: 3;
+}
